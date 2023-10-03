@@ -2,7 +2,11 @@ numpy
 pandas
 plotly
 flask
+flask-sqlalchemy
+flask-login
 dash
-dash_bootstrap_components
+dash-bootstrap-components
+dash-bootstrap-templates
 sqlalchemy
 werkzeug
+gunicorn
