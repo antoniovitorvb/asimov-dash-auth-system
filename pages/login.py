@@ -17,7 +17,7 @@ card_style = {
 #     ], style = card_style)
 
 
-def render_layout():
+def render_layout(username = None):
     login = dbc.Card([
         html.Legend('Login'),
 
@@ -30,7 +30,7 @@ def render_layout():
         html.Div([
             html.Label('Or', style={'margin-right':'5px'}),
             dcc.Link('Register', href='/register')
-        ], style={'padding': '20px'})
+        ], style={'padding': '20px', 'display':'flex', 'justify-content':'center'})
 
     ], className='login_card')
     return login

@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 
 from app import *
 
-def render_layout():
+def render_layout(username = None):
     register = dbc.Card([
         html.Legend('Register'),
 
@@ -26,29 +26,39 @@ def render_layout():
     return register
 
 # ========== CALLBACKS ========== #
+import pandas as pd
+
 @app.callback(
     Output(component_id='register-state', component_property='data'),
+
     Input(component_id='register-button', component_property='n_clicks'),
 
     [State(component_id='user-register', component_property='value'),
      State(component_id='pwd-register', component_property='value'),
      State(component_id='email-register', component_property='value')]
 )
-def register(n_clicks, name, pwd, email):
+def registering(n_clicks, username, password, email):
     if n_clicks == None:
+        print('startup')
         raise PreventUpdate
     
-    if all([name, pwd, email]): # All elements in the list are NOT None!
-        hashed_pwd = generate_password_hash(pwd, method='sha256')
-        ins = Users_tbl.insert().values(username=name, email=email, password=hashed_pwd)
+    print(n_clicks)
 
-        # sql = f"INSERT INTO {Users_tbl.name} (username, email, password) VALUES ('{name}', '{email}', '{hashed_pwd}')"
+    if all([username, password, email]): # All elements in the list are NOT None!
+        hashed_pwd = generate_password_hash(password, method = 'sha256')
+        print(username, password, hashed_pwd, email)
+
+        ins = Users_tbl.insert().values(username = username,
+                                        password = hashed_pwd,
+                                        email = email)
+        
+        # sql = f"INSERT INTO {Users_tbl.name} (username, email, password) VALUES ({username}, {email}, {hashed_pwd})"
 
         conn = engine.connect()
-        conn.execute(ins)
+        conn.execute(ins)        
         conn.close()
-        print('Done!')
+        print('done')
         return ''
     else:
-        print('erro')
-        return 'error'
+        print('error')
+        return 'Error'

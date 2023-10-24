@@ -19,7 +19,7 @@ card_style = {
 }
 
 df = pd.DataFrame(
-    np.random.randn(100,1) + np.arange(100).reshape(100, 1),
+    np.random.randn(100,1) + (2 * np.sin(range(100))).reshape(100, 1),
     columns=['data']
 )
 
